@@ -16,7 +16,8 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.dapp.R;
-import com.example.dapp.Fruit;
+
+import JavaBean.Fruit;
 
 import java.util.List;
 
@@ -24,7 +25,7 @@ import java.util.List;
  * Created by Administrator on 2017/12/27.
  */
 
-public class FruitAdapter extends ArrayAdapter<Fruit>  {
+public class FruitAdapter extends ArrayAdapter<Fruit> implements Filterable {
     private int resourceId;
 
     public FruitAdapter(Context context, int textViewResourceId, List<Fruit> objects) {
@@ -41,20 +42,23 @@ public class FruitAdapter extends ArrayAdapter<Fruit>  {
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
             viewHolder = new ViewHolder();
-            viewHolder.fruitImage = (ImageView) view.findViewById(R.id.search_fruit_image);
-            viewHolder.fruitName = (TextView) view.findViewById(R.id.search_fruit_name);
+            viewHolder.food_Ri_photo = view.findViewById(R.id.search_fruit_image);
+            viewHolder.food_Ri_Name = view.findViewById(R.id.search_fruit_name);
+//            viewHolder.fruitNutrition = view.findViewById(R.id.search_fruit_nutrition);
             view.setTag(viewHolder);
         } else {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.fruitName.setText(fruit.getName());
-        viewHolder.fruitImage.setImageResource(fruit.getImageId());
+        viewHolder.food_Ri_Name.setText(fruit.getRi_Food_name());
+        viewHolder.food_Ri_photo.setImageDrawable(fruit.getRi_Food_photo());
+//        viewHolder.fruitNutrition.setText(fruit.getNutrition());
         return view;
     }
 
     class ViewHolder {
-        ImageView fruitImage;
-        TextView fruitName;
+        ImageView food_Ri_photo;
+        TextView food_Ri_Name;
+//        TextView fruitNutrition;
     }
 }

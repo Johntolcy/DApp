@@ -1,25 +1,58 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.example.dapp">
+
+    xmlns:tools="http://schemas.android.com/tools"
+
+    package="com.example.dapp">
 
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
-        android:label="@string/app_name"
+        android:label="DApp"
         android:roundIcon="@mipmap/ic_launcher_round"
-        android:supportsRtl="true"
-        android:theme="@style/AppTheme">
-        <activity android:name=".MainActivity">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN"/>
 
-                <category android:name="android.intent.category.LAUNCHER"/>
+        android:supportsRtl="true"
+
+        android:theme="@style/AppTheme"
+        tools:replace="android:icon, android:label,android:theme">
+        <activity
+            android:name=".Login_App"
+            android:windowSoftInputMode="adjustPan">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
 
-        <activity android:name=".SearchResult">
+        <activity
+            android:name=".MainAll"
+            android:label="糖App" />
+        <activity
+            android:name=".FruitMainActivity"
+            android:label="食物搜索"
+            android:windowSoftInputMode="adjustPan" />
+        <activity android:name=".FruitSelect" />
+        <activity android:name=".FruitSearch" />
+        <activity android:name=".SearchNullResult" />
+        <activity
+            android:name=".Register_main"
+            android:label="用户注册"
+            android:launchMode="singleTask" />
+        <activity
+            android:name=".Food_record_add"
+            android:label="添加记录" />
+        <activity
+            android:name=".Food_Record_all"
+            android:label="饮食管理" />
 
-        </activity>
+        <activity
+            android:name=".Register_career"
+            android:label="职业选择" />
+        <!--<activity android:name=".ScaleRuler_tall_weight"></activity>-->
+        <activity
+            android:name=".User_info_All"
+            android:label="个人信息" />
+
     </application>
 
 </manifest>
