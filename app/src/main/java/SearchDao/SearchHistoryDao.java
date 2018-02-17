@@ -11,14 +11,14 @@ import Database.DBHelper;
 import JavaBean.History;
 import Util.Staticfinal_Value;
 
-public class HistoryDao {
+public class SearchHistoryDao {
     private Staticfinal_Value sfv;
     private DBHelper dbHelper;
     private SQLiteDatabase historyDB;
     private String foodName;
     private History history;
 
-    public HistoryDao(Context context) {
+    public SearchHistoryDao(Context context) {
         sfv = new Staticfinal_Value();
         dbHelper = new DBHelper(context, "DApp.db", null, sfv.staticVersion());
     }

@@ -54,7 +54,7 @@ public class FoodRecordDao {
                 recordClass = cursor.getString(cursor.getColumnIndex("Food_class"));
                 item_id = cursor.getInt(cursor.getColumnIndex("_id"));
 
-                foodRecord.add(new UserFood(recordDate, recordClass, foodName, recordIntake, item_id, foodEnergy));
+                foodRecord.add(new UserFood(recordDate, recordClass, foodName, recordIntake, item_id, foodEnergy,recordFoodId));
             }
             cursor.close();
         }

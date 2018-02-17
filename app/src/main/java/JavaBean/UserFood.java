@@ -21,7 +21,7 @@ public class UserFood {
     private String foodName;
     private String foodNutri;
 
-    public UserFood(String foodDate, String foodClass, String foodName, String foodIntake, int item_Id, String foodNutri) {
+    public UserFood(String foodDate, String foodClass, String foodName, String foodIntake, int item_Id, String foodNutri, String foodId) {
         this.foodId = foodId;
         this.foodDate = foodDate;
         this.foodClass = foodClass;

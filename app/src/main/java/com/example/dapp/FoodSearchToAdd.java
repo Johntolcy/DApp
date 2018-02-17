@@ -37,7 +37,7 @@ import java.util.List;
 import Adapter.HistoryAdapter;
 import Database.DBHelper;
 import JavaBean.History;
-import SearchDao.HistoryDao;
+import SearchDao.SearchHistoryDao;
 import Util.Staticfinal_Value;
 
 public class FoodSearchToAdd extends AppCompatActivity implements View.OnClickListener {
@@ -53,7 +53,7 @@ public class FoodSearchToAdd extends AppCompatActivity implements View.OnClickLi
     private HistoryAdapter historyAdapter;
     private Staticfinal_Value sfv;
     private DBHelper dbHelper;
-    private HistoryDao historyDao;
+    private SearchHistoryDao historyDao;
     private TextView clearHis;
 
     @SuppressLint("ClickableViewAccessibility")
@@ -160,7 +160,7 @@ public class FoodSearchToAdd extends AppCompatActivity implements View.OnClickLi
             }
         });
         listHistory = findViewById(R.id.search_history);
-        historyDao = new HistoryDao(this);
+        historyDao = new SearchHistoryDao(this);
         histories = historyDao.getHistory(getId);
         historyAdapter = new HistoryAdapter(this, R.layout.history_item, histories);
         listHistory.setAdapter(historyAdapter);

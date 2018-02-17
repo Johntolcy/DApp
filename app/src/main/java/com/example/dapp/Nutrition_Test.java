@@ -12,12 +12,15 @@ import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 
+import junit.framework.Test;
+
 import java.text.DecimalFormat;
 import java.text.NumberFormat;
 
 import SearchDao.CareerDao;
 import SearchDao.FoodDao;
 import SearchDao.UserDao;
+import SearchDao.UserIntakeDao;
 
 public class Nutrition_Test extends AppCompatActivity {
     private CareerDao careerDao = new CareerDao(this);
@@ -55,6 +58,9 @@ public class Nutrition_Test extends AppCompatActivity {
     private TextView f_ZN;
     private String nf_percent;
     private NumberFormat nf;
+    private FoodSelected foodSelected;
+
+    private TextView f_purine;
 
     @RequiresApi(api = Build.VERSION_CODES.N)
     @Override
@@ -141,6 +147,9 @@ public class Nutrition_Test extends AppCompatActivity {
         TextView r_ZN = findViewById(R.id.VS_rec_Zn);
         String ps_ZN;
 
+        f_purine = findViewById(R.id.VS_user_purine);
+
+
         nf = NumberFormat.getNumberInstance();
         nf.setMaximumFractionDigits(2);
 
@@ -174,9 +183,11 @@ public class Nutrition_Test extends AppCompatActivity {
         Test_water();
         Test_Zn();
         Test_CLS();
+        Test_purine();
     }
 
     private void Test_energy() {
+        UserIntakeDao userIntakeDao = new UserIntakeDao(this);
         float userWeight = Float.parseFloat(userDao.getWeight(userId));
         String career = userDao.getCareer(userId);
         String intensity = userDao.getIntensity(career);
@@ -185,6 +196,11 @@ public class Nutrition_Test extends AppCompatActivity {
         int max_energy = careerDao.getMax_energy(shape, intensity, career);
         float VS_min_energy = min_energy * (int) userWeight;
         float VS_max_energy = max_energy * (int) userWeight;
+        foodSelected = new FoodSelected();
+        String cumEnergy = userIntakeDao.getTodayenergy(userId, foodSelected.initDate()).replace(",", "");
+        Log.d("Nutrition", cumEnergy);
+        VS_min_energy = VS_min_energy - Float.valueOf(cumEnergy);
+        VS_max_energy = VS_max_energy - Float.valueOf(cumEnergy);
 
         String g_energy = foodDao.find_energy(food_name);
         float fo_energy = Float.valueOf(nf_percent) * Integer.valueOf(g_energy);
@@ -192,7 +208,8 @@ public class Nutrition_Test extends AppCompatActivity {
         f_energy.setText(nf_energy);
         if (VS_max_energy != VS_min_energy)
             rec_energy = VS_min_energy + "—" + VS_max_energy + "千卡";
-        else rec_energy = VS_max_energy + "千卡";
+        else if (VS_min_energy <= 0 || VS_max_energy == VS_min_energy)
+            rec_energy = VS_max_energy + "千卡";
         r_energy.setText(rec_energy);
         if (fo_energy <= VS_max_energy)
             ps_energy.setText("合理");
@@ -203,7 +220,7 @@ public class Nutrition_Test extends AppCompatActivity {
     private void Test_protein() {
         String info;
         String g_protein = foodDao.find_protein(food_name);
-        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄")&& !g_protein.equals("─")) {
+        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄") && !g_protein.equals("─")) {
             float fo_nutrition = Float.valueOf(nf_percent) * Float.valueOf(g_protein);
             info = "蛋白质 " + nf.format(fo_nutrition) + "克";
         } else info = "蛋白质 —克";
@@ -213,7 +230,7 @@ public class Nutrition_Test extends AppCompatActivity {
     private void Test_fat() {
         String info;
         String g_protein = foodDao.find_fat(food_name);
-        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄")&& !g_protein.equals("─")) {
+        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄") && !g_protein.equals("─")) {
             float fo_nutrition = Float.valueOf(nf_percent) * Float.valueOf(g_protein);
             info = "脂肪 " + nf.format(fo_nutrition) + "克";
         } else info = "脂肪 —克";
@@ -223,7 +240,7 @@ public class Nutrition_Test extends AppCompatActivity {
     private void Test_water() {
         String info;
         String g_protein = foodDao.find_water(food_name);
-        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄")&& !g_protein.equals("─")) {
+        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄") && !g_protein.equals("─")) {
             float fo_nutrition = Float.valueOf(nf_percent) * Float.valueOf(g_protein);
             info = "水分 " + nf.format(fo_nutrition) + "克";
         } else info = "水分 —克";
@@ -233,7 +250,7 @@ public class Nutrition_Test extends AppCompatActivity {
     private void Test_CH() {
         String info;
         String g_protein = foodDao.find_CH(food_name);
-        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄")&& !g_protein.equals("─")) {
+        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄") && !g_protein.equals("─")) {
             float fo_nutrition = Float.valueOf(nf_percent) * Float.valueOf(g_protein);
             info = "碳水化物 " + nf.format(fo_nutrition) + "克";
         } else info = "碳水化物 —克";
@@ -243,7 +260,7 @@ public class Nutrition_Test extends AppCompatActivity {
     private void Test_DF() {
         String info;
         String g_protein = foodDao.find_DF(food_name);
-        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄")&& !g_protein.equals("─")) {
+        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄") && !g_protein.equals("─")) {
             float fo_nutrition = Float.valueOf(nf_percent) * Float.valueOf(g_protein);
             info = "膳食纤维 " + nf.format(fo_nutrition) + "克";
         } else info = "膳食纤维 —克";
@@ -253,7 +270,7 @@ public class Nutrition_Test extends AppCompatActivity {
     private void Test_VA() {
         String info;
         String g_protein = foodDao.find_vA(food_name);
-        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄")&& !g_protein.equals("─")) {
+        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄") && !g_protein.equals("─")) {
             float fo_nutrition = Float.valueOf(nf_percent) * Float.valueOf(g_protein);
             info = "维生素A " + nf.format(fo_nutrition) + "毫克";
         } else info = "维生素A —毫克";
@@ -263,7 +280,7 @@ public class Nutrition_Test extends AppCompatActivity {
     private void Test_VB1() {
         String info;
         String g_protein = foodDao.find_vB1(food_name);
-        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄")&& !g_protein.equals("─")) {
+        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄") && !g_protein.equals("─")) {
             float fo_nutrition = Float.valueOf(nf_percent) * Float.valueOf(g_protein);
             info = "维生素B1 " + nf.format(fo_nutrition) + "毫克";
         } else info = "维生素B1 —毫克";
@@ -273,7 +290,7 @@ public class Nutrition_Test extends AppCompatActivity {
     private void Test_VB2() {
         String info;
         String g_protein = foodDao.find_vB2(food_name);
-        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄")&& !g_protein.equals("─")) {
+        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄") && !g_protein.equals("─")) {
             float fo_nutrition = Float.valueOf(nf_percent) * Float.valueOf(g_protein);
             info = "维生素B2 " + nf.format(fo_nutrition) + "毫克";
         } else info = "维生素B2 —毫克";
@@ -283,17 +300,17 @@ public class Nutrition_Test extends AppCompatActivity {
     private void Test_VB3() {
         String info;
         String g_protein = foodDao.find_vB3(food_name);
-        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄")&& !g_protein.equals("─")) {
+        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄") && !g_protein.equals("─")) {
             float fo_nutrition = Float.valueOf(nf_percent) * Float.valueOf(g_protein);
             info = "维生素B3 " + nf.format(fo_nutrition) + "毫克";
-        } else info ="维生素B3 —毫克";
+        } else info = "维生素B3 —毫克";
         f_VB3.setText(info);
     }
 
     private void Test_VE() {
         String info;
         String g_protein = foodDao.find_vE(food_name);
-        if (g_protein != null && !g_protein.equals("...") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄")&& !g_protein.equals("─")) {
+        if (g_protein != null && !g_protein.equals("...") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄") && !g_protein.equals("─")) {
             float fo_nutrition = Float.valueOf(nf_percent) * Float.valueOf(g_protein);
             info = "维生素E " + nf.format(fo_nutrition) + "毫克";
         } else info = "维生素E —毫克";
@@ -303,17 +320,17 @@ public class Nutrition_Test extends AppCompatActivity {
     private void Test_VC() {
         String info;
         String g_protein = foodDao.find_vC(food_name);
-        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄")&& !g_protein.equals("─")) {
+        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄") && !g_protein.equals("─")) {
             float fo_nutrition = Float.valueOf(nf_percent) * Float.valueOf(g_protein);
             info = "维生素E " + nf.format(fo_nutrition) + "毫克";
-        } else info ="维生素E —毫克";
+        } else info = "维生素E —毫克";
         f_VC.setText(info);
     }
 
     private void Test_Na() {
         String info;
         String g_protein = foodDao.find_Na(food_name);
-        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄")&& !g_protein.equals("─")) {
+        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄") && !g_protein.equals("─")) {
             float fo_nutrition = Float.valueOf(nf_percent) * Float.valueOf(g_protein);
             info = "钠 " + nf.format(fo_nutrition) + "毫克";
         } else info = "钠 —毫克";
@@ -323,7 +340,7 @@ public class Nutrition_Test extends AppCompatActivity {
     private void Test_Fe() {
         String info;
         String g_protein = foodDao.find_Fe(food_name);
-        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄")&& !g_protein.equals("─")) {
+        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄") && !g_protein.equals("─")) {
             float fo_nutrition = Float.valueOf(nf_percent) * Float.valueOf(g_protein);
             info = "铁 " + nf.format(fo_nutrition) + "毫克";
         } else info = "铁 —毫克";
@@ -333,7 +350,7 @@ public class Nutrition_Test extends AppCompatActivity {
     private void Test_Ga() {
         String info;
         String g_protein = foodDao.find_Ga(food_name);
-        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄")&& !g_protein.equals("─")) {
+        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄") && !g_protein.equals("─")) {
             float fo_nutrition = Float.valueOf(nf_percent) * Float.valueOf(g_protein);
             info = "钙 " + nf.format(fo_nutrition) + "毫克";
         } else info = "钙 —毫克";
@@ -343,7 +360,7 @@ public class Nutrition_Test extends AppCompatActivity {
     private void Test_Mg() {
         String info;
         String g_protein = foodDao.find_Mg(food_name);
-        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄")&& !g_protein.equals("─")) {
+        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄") && !g_protein.equals("─")) {
             float fo_nutrition = Float.valueOf(nf_percent) * Float.valueOf(g_protein);
             info = "镁 " + nf.format(fo_nutrition) + "毫克";
         } else info = "镁 —毫克";
@@ -353,7 +370,7 @@ public class Nutrition_Test extends AppCompatActivity {
     private void Test_P() {
         String info;
         String g_protein = foodDao.find_P(food_name);
-        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄")&& !g_protein.equals("─")) {
+        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄") && !g_protein.equals("─")) {
             float fo_nutrition = Float.valueOf(nf_percent) * Float.valueOf(g_protein);
             info = "磷 " + nf.format(fo_nutrition) + "毫克";
         } else info = "磷 —毫克";
@@ -363,17 +380,17 @@ public class Nutrition_Test extends AppCompatActivity {
     private void Test_K() {
         String info;
         String g_protein = foodDao.find_K(food_name);
-        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄")&& !g_protein.equals("─")) {
+        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄") && !g_protein.equals("─")) {
             float fo_nutrition = Float.valueOf(nf_percent) * Float.valueOf(g_protein);
             info = "钾 " + nf.format(fo_nutrition) + "毫克";
-        } else info ="钾 —毫克";
+        } else info = "钾 —毫克";
         f_K.setText(info);
     }
 
     private void Test_Zn() {
         String info;
         String g_protein = foodDao.find_Zn(food_name);
-        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄")&& !g_protein.equals("─")) {
+        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄") && !g_protein.equals("─")) {
             float fo_nutrition = Float.valueOf(nf_percent) * Float.valueOf(g_protein);
             info = "锌 " + nf.format(fo_nutrition) + "毫克";
         } else info = "锌 —毫克";
@@ -383,10 +400,20 @@ public class Nutrition_Test extends AppCompatActivity {
     private void Test_CLS() {
         String info;
         String g_protein = foodDao.find_CLS(food_name);
-        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄")&& !g_protein.equals("─")) {
+        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄") && !g_protein.equals("─")) {
             float fo_nutrition = Float.valueOf(nf_percent) * Float.valueOf(g_protein);
             info = "胆固醇 " + nf.format(fo_nutrition) + "毫克";
         } else info = "胆固醇 —毫克";
         f_CLS.setText(info);
+    }
+
+    private void Test_purine() {
+        String info;
+        String g_protein = foodDao.find_purine(food_name);
+        if (g_protein != null && !g_protein.equals("…") && !g_protein.equals("Tr") && g_protein.length() > 0 && !g_protein.equals("—") && !g_protein.equals("┄") && !g_protein.equals("─")) {
+            float fo_nutrition = Float.valueOf(nf_percent) * Float.valueOf(g_protein);
+            info = "嘌呤 " + nf.format(fo_nutrition) + "毫克";
+        } else info = "嘌呤 —毫克";
+        f_purine.setText(info);
     }
 }

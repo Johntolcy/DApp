@@ -507,7 +507,7 @@ public class FoodSelected extends AppCompatActivity implements View.OnClickListe
         }
     };
 
-    private String initDate() {
+    public String initDate() {
         String date;
         Calendar calendar = Calendar.getInstance();
         int year = calendar.get(Calendar.YEAR);

@@ -76,6 +76,8 @@ public class FoodRecordListView extends AppCompatActivity {
                 bundle.putString("food_name", userFood.getFoodName());
                 bundle.putString("itemId", String.valueOf(userFood.get_id()));
                 bundle.putString("itemSize", userFood.getFoodIntake());
+                bundle.putString("itemEnergy",userFood.getFoodNutri());
+                Log.d("FoodRecordListView", userFood.getFoodId());
                 Intent intent2 = new Intent(FoodRecordListView.this, FoodRecordItem.class);
                 intent2.putExtras(bundle);
                 startActivity(intent2);

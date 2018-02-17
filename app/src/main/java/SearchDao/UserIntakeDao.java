@@ -4,12 +4,15 @@ import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 
+import java.text.NumberFormat;
+
 import Database.DBHelper;
 import Util.Staticfinal_Value;
 
 public class UserIntakeDao {
     private Staticfinal_Value sfv;
     private DBHelper dbHelper;
+    private NumberFormat numberFormat;
 
     public UserIntakeDao(Context context) {
         sfv = new Staticfinal_Value();
@@ -17,7 +20,7 @@ public class UserIntakeDao {
     }
 
     public String[] getFromUserIntake(String userId, String UIClass, String UIdate) {
-        String[] UIenergy = new String[23];
+        String[] UIenergy = new String[21];
         SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
         String sql = "select * from UserIntake where User_id = ? and UI_class= ? and UI_date= ?";
         Cursor cursor = sqLiteDatabase.rawQuery(sql, new String[]{userId, UIClass, UIdate});
@@ -52,4 +55,24 @@ public class UserIntakeDao {
         return UIenergy;
     }
 
+    public String getTodayenergy(String userId, String UIdate) {
+        numberFormat = NumberFormat.getNumberInstance();
+        numberFormat.setMaximumFractionDigits(2);
+        String energy;
+        float b = 0;
+        SQLiteDatabase sqLiteDatabase = dbHelper.getReadableDatabase();
+        String sql = "select * from UserIntake where User_id=? and UI_date=?";
+        Cursor cursor = sqLiteDatabase.rawQuery(sql, new String[]{userId, UIdate});
+        if (cursor != null && cursor.getCount() != 0) {
+            while (cursor.moveToNext()) {
+                float a = Float.parseFloat(cursor.getString(cursor.getColumnIndex("UI_energy")));
+                b = b + a;
+            }
+            cursor.close();
+        }
+        energy = numberFormat.format(b);
+        dbHelper.close();
+        sqLiteDatabase.close();
+        return energy;
+    }
 }

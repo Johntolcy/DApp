@@ -14,6 +14,10 @@ import Util.DBUtil;
 public class FoodDao {
     private DBUtil dbUtil;
     private String info;
+    private String[] nutri = {"Food_dic_energy", "Food_dic_protein", "Food_dic_fat", "Food_dic_CH", "Food_dic_DF",
+            "Food_dic_water", "Food_dic_CLS", "Food_dic_vA", "Food_dic_vB1", "Food_dic_vB2", "Food_dic_vB3",
+            "Food_dic_vC", "Food_dic_vE", "Food_dic_Ga", "Food_dic_Na", "Food_dic_Fe", "Food_dic_Mg", "Food_dic_Zn",
+            "Food_dic_P", "Food_dic_K", "Food_dic_purine"};
 
     public FoodDao(Context context) {
         dbUtil = new DBUtil(context);
@@ -528,9 +532,9 @@ public class FoodDao {
         return info;
     }
 
-    public String find_purine(String foodName){
-        SQLiteDatabase foodDB=dbUtil.openDatabase();
-        String sql="select Food_dic_purine from Food_Dic where Food_dic_name=?";
+    public String find_purine(String foodName) {
+        SQLiteDatabase foodDB = dbUtil.openDatabase();
+        String sql = "select Food_dic_purine from Food_Dic where Food_dic_name=?";
         try {
             Cursor c = foodDB.rawQuery(sql, new String[]{foodName});
             if (c != null && c.getCount() != 0) {
@@ -548,4 +552,26 @@ public class FoodDao {
         foodDB.close();
         return info;
     }
+
+    public String[] findNutrition(String foodId) {
+        SQLiteDatabase foodDB = dbUtil.openDatabase();
+        String[] Nutri_info = new String[21];
+        String sql = "select * from Food_Dic where Food_dic_id=?";
+        try {
+            Cursor c = foodDB.rawQuery(sql, new String[]{foodId});
+            if (c != null && c.getCount() != 0) {
+                while (c.moveToNext()) {
+                    for (int i = 0; i <= 20; i++) {
+                        Nutri_info[i] = c.getString(c.getColumnIndex(nutri[i]));
+                    }
+                }
+                c.close();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        foodDB.close();
+        return Nutri_info;
+    }
+
 }

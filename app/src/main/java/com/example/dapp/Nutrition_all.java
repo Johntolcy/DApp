@@ -61,6 +61,8 @@ public class Nutrition_all extends AppCompatActivity {
         TextView scrollViewZn = findViewById(R.id.scrollView_Zn);
         TextView scrollViewNa = findViewById(R.id.scrollView_Na);
         TextView toolbarText = findViewById(R.id.search_text_FAN);
+        TextView scrollViewpurine = findViewById(R.id.scrollView_purine);
+        TextView scrollViewpur_ps = findViewById(R.id.scrollView_purine_ps);
 
         toolbarText.setText(foodName + "营养信息");
 
@@ -70,9 +72,9 @@ public class Nutrition_all extends AppCompatActivity {
         scrollViewCH.setText(CH);
         String DF = foodDao.find_DF(foodName) + "克";
         scrollViewDF.setText(DF);
-        String fat = foodDao.find_fat(foodName)+ "克";
+        String fat = foodDao.find_fat(foodName) + "克";
         scrollViewFat.setText(fat);
-        String protein = foodDao.find_protein(foodName)+ "克";
+        String protein = foodDao.find_protein(foodName) + "克";
         scrollViewProtein.setText(protein);
         String water = foodDao.find_water(foodName) + "克";
         scrollViewWater.setText(water);
@@ -104,5 +106,14 @@ public class Nutrition_all extends AppCompatActivity {
         scrollViewZn.setText(Zn);
         String Na = foodDao.find_Na(foodName) + "毫克";
         scrollViewNa.setText(Na);
+        String pur = foodDao.find_purine(foodName) + "毫克";
+        String purine_ps;
+        scrollViewpurine.setText(pur);
+        if (!foodDao.find_purine(foodName).equals("—")) {
+            if (Float.valueOf(foodDao.find_purine(foodName)) >= 100) {
+                purine_ps = "高嘌呤食物";
+            } else purine_ps = "正常";
+            scrollViewpur_ps.setText(purine_ps);
+        } else scrollViewpur_ps.setText("—");
     }
 }
