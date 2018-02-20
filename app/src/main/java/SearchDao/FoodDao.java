@@ -14,10 +14,10 @@ import Util.DBUtil;
 public class FoodDao {
     private DBUtil dbUtil;
     private String info;
-    private String[] nutri = {"Food_dic_energy", "Food_dic_protein", "Food_dic_fat", "Food_dic_CH", "Food_dic_DF",
-            "Food_dic_water", "Food_dic_CLS", "Food_dic_vA", "Food_dic_vB1", "Food_dic_vB2", "Food_dic_vB3",
-            "Food_dic_vC", "Food_dic_vE", "Food_dic_Ga", "Food_dic_Na", "Food_dic_Fe", "Food_dic_Mg", "Food_dic_Zn",
-            "Food_dic_P", "Food_dic_K", "Food_dic_purine"};
+    private String[] nutri = {"Food_dic_energy", "Food_dic_protein", "Food_dic_fat", "Food_dic_DF", "Food_dic_CH",
+            "Food_dic_water", "Food_dic_vA", "Food_dic_vB1", "Food_dic_vB2", "Food_dic_vB3",
+            "Food_dic_vE", "Food_dic_vC", "Food_dic_Fe", "Food_dic_Ga", "Food_dic_Na", "Food_dic_CLS", "Food_dic_K", "Food_dic_Mg", "Food_dic_Zn",
+            "Food_dic_P", "Food_dic_purine"};
 
     public FoodDao(Context context) {
         dbUtil = new DBUtil(context);

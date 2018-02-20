@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FDF5E6"
     android:orientation="vertical">
 
 
@@ -16,7 +15,7 @@
         android:paddingRight="10dp">
 
         <Button
-            android:id="@+id/add_concern"
+            android:id="@+id/change_concern"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
@@ -30,17 +29,17 @@
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="记录添加"
+            android:text="记录修改"
             android:textSize="18sp" />
 
         <Button
-            android:id="@+id/add_agree"
+            android:id="@+id/change_agree"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
             android:gravity="center_horizontal"
-            android:text="添加"
+            android:text="修改"
             android:textSize="20sp" />
     </LinearLayout>
 
@@ -49,10 +48,10 @@
         android:layout_height="wrap_content"
         android:background="#FFE4E1"
         android:paddingLeft="10dp"
-        android:paddingStart="10dp"
+        android:paddingRight="10dp"
         android:text="设置日期"
         android:textSize="18sp"
-        tools:ignore="RtlSymmetry" />
+         />
 
 
     <LinearLayout
@@ -60,19 +59,18 @@
         android:layout_height="wrap_content"
         android:layout_marginLeft="10dp"
         android:layout_marginStart="10dp"
-        android:layout_marginTop="10dp"
         android:orientation="horizontal">
 
         <Button
-            android:id="@+id/date_select"
+            android:id="@+id/date_select_c"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="手动设置"
+            android:text="更改日期"
             android:textSize="20sp" />
 
         <Button
-            android:id="@+id/date_today"
+            android:id="@+id/date_today_c"
             style="@style/Widget.AppCompat.Button.Colored"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -83,10 +81,9 @@
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/date_record"
+            android:id="@+id/date_record_c"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="点击按钮设置日期"
             android:textSize="18sp" />
     </LinearLayout>
 
@@ -105,12 +102,12 @@
         android:layout_height="wrap_content">
 
         <LinearLayout
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <TextView
-                android:id="@+id/fo_breakfast"
+                android:id="@+id/fo_breakfast_c"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -121,7 +118,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/fo_beforeL"
+                android:id="@+id/fo_beforeL_c"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -132,7 +129,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/fo_lunch"
+                android:id="@+id/fo_lunch_c"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -143,7 +140,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/fo_afterL"
+                android:id="@+id/fo_afterL_c"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -154,7 +151,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/fo_dinner"
+                android:id="@+id/fo_dinner_c"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -165,7 +162,7 @@
                 android:textSize="20sp" />
 
             <TextView
-                android:id="@+id/fo_anytime"
+                android:id="@+id/fo_anytime_c"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:clickable="true"
@@ -194,8 +191,7 @@
         android:layout_marginTop="10dp">
 
         <EditText
-            android:id="@+id/food_size"
-            android:text="100"
+            android:id="@+id/food_size_c"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="1"
@@ -204,14 +200,14 @@
             android:maxLength="5" />
 
         <TextView
-            android:id="@+id/size_unit"
+            android:id="@+id/size_unit_c"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:text="克"
             android:textSize="20sp" />
 
         <TextView
-            android:id="@+id/food_size_energy"
+            android:id="@+id/food_size_energy_c"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_weight="2"

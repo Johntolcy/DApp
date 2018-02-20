@@ -38,7 +38,7 @@ public class FoodRecordListView extends AppCompatActivity {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
             this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
-        setContentView(R.layout.foodrecord_change);
+        setContentView(R.layout.foodrecordlistview);
         final Intent intent = getIntent();
         bundleFrom_FAF = intent.getExtras();
         if (bundleFrom_FAF != null) {
@@ -59,11 +59,7 @@ public class FoodRecordListView extends AppCompatActivity {
         if (foodList.size() != 0) {
             adapter = new UserfoodAdapter(this, R.layout.foodrecord_item, foodList);
             listView.setAdapter(adapter);
-        } else {
-            Intent intent1 = new Intent(this, FoodSearchNull.class);
-            startActivity(intent1);
         }
-
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
             @Override
             public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -76,7 +72,7 @@ public class FoodRecordListView extends AppCompatActivity {
                 bundle.putString("food_name", userFood.getFoodName());
                 bundle.putString("itemId", String.valueOf(userFood.get_id()));
                 bundle.putString("itemSize", userFood.getFoodIntake());
-                bundle.putString("itemEnergy",userFood.getFoodNutri());
+                bundle.putString("itemEnergy", userFood.getFoodNutri());
                 Log.d("FoodRecordListView", userFood.getFoodId());
                 Intent intent2 = new Intent(FoodRecordListView.this, FoodRecordItem.class);
                 intent2.putExtras(bundle);

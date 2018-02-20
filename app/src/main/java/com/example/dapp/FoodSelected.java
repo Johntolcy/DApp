@@ -21,7 +21,6 @@ import android.text.Editable;
 import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.widget.Button;
@@ -217,14 +216,14 @@ public class FoodSelected extends AppCompatActivity implements View.OnClickListe
 
     private void ADD_Rec() {
         if (add_view == null) {
-            add_view = mInflater.inflate(R.layout.add_record, null);
+            add_view = mInflater.inflate(R.layout.record_add, null);
             date_setup = add_view.findViewById(R.id.date_record);
             date_setup.setText(initDate());
         }
         Add_dialog = new AlertDialog.Builder(this).create();
         Add_dialog.setView(add_view);
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Objects.requireNonNull(Add_dialog.getWindow()).setContentView(R.layout.add_record);
+            Objects.requireNonNull(Add_dialog.getWindow()).setContentView(R.layout.record_add);
         }
         Add_dialog.setCancelable(true);
         Button cancel = add_view.findViewById(R.id.add_concern);
@@ -303,7 +302,7 @@ public class FoodSelected extends AppCompatActivity implements View.OnClickListe
 
             }
         });
-
+//添加记录表
         Button sureAdd = add_view.findViewById(R.id.add_agree);
         sureAdd.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -447,10 +446,9 @@ public class FoodSelected extends AppCompatActivity implements View.OnClickListe
         @Override
         public boolean handleMessage(Message msg) {
 
-            String initDate;
             switch (msg.what) {
                 case 0:
-                    initDate = initDate();
+                    String initDate = initDate();
                     date_setup.setText(initDate);
                     Toast.makeText(FoodSelected.this, initDate, Toast.LENGTH_SHORT).show();
                     break;
@@ -554,6 +552,7 @@ public class FoodSelected extends AppCompatActivity implements View.OnClickListe
         return result_str;
     }
 
+    //添加到用户营养摄入
     private void calculateNutri() {
         //数据库的23-2个营养元素值
         NutArray = new String[23];
@@ -563,7 +562,6 @@ public class FoodSelected extends AppCompatActivity implements View.OnClickListe
         NutArray[4] = foodDao.find_CH(fruitName);
         NutArray[2] = foodDao.find_fat(fruitName);
         NutArray[5] = foodDao.find_water(fruitName);
-        NutArray[15] = foodDao.find_CLS(fruitName);
         NutArray[6] = foodDao.find_vA(fruitName);
         NutArray[7] = foodDao.find_vB1(fruitName);
         NutArray[8] = foodDao.find_vB2(fruitName);
@@ -571,11 +569,12 @@ public class FoodSelected extends AppCompatActivity implements View.OnClickListe
         NutArray[10] = foodDao.find_vE(fruitName);
         NutArray[11] = foodDao.find_vC(fruitName);
         NutArray[12] = foodDao.find_Fe(fruitName);
+        NutArray[13] = foodDao.find_Ga(fruitName);
         NutArray[14] = foodDao.find_Na(fruitName);
+        NutArray[15] = foodDao.find_CLS(fruitName);
+        NutArray[16] = foodDao.find_K(fruitName);
         NutArray[17] = foodDao.find_Mg(fruitName);
         NutArray[18] = foodDao.find_Zn(fruitName);
-        NutArray[13] = foodDao.find_Ga(fruitName);
-        NutArray[16] = foodDao.find_K(fruitName);
         NutArray[19] = foodDao.find_P(fruitName);
         NutArray[20] = foodDao.find_purine(fruitName);
 
