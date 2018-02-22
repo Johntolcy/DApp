@@ -20,7 +20,7 @@ import java.util.Map;
 
 public class FoodAllFunction extends AppCompatActivity implements View.OnClickListener {
     private String[] record_item = {"分析报告", "记录修改", "饮食情况"};
-    private int[] record_pic = {R.drawable.analysis_a, R.drawable.reprot_re, R.drawable.report};
+    private int[] record_pic = {R.drawable.analysis_a, R.drawable.viewlist, R.drawable.report};
     private List<Map<String, Object>> record_list;
     private Toolbar toolbar;
     private GridView gridView;

@@ -13,7 +13,12 @@ import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
+import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
@@ -22,6 +27,7 @@ import android.text.InputFilter;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
@@ -42,6 +48,7 @@ import SearchDao.FoodDao;
 import SearchDao.UserDao;
 import SearchDao.UserIntakeDao;
 import Util.Staticfinal_Value;
+import de.hdodenhof.circleimageview.CircleImageView;
 
 
 /**
@@ -89,6 +96,8 @@ public class FoodSelected extends AppCompatActivity implements View.OnClickListe
 
     private NumberFormat nf;
     private float percent;
+
+    private DrawerLayout drawerLayoutFS;
 //    private Handler handler;弱引用
 
     @Override
@@ -104,19 +113,57 @@ public class FoodSelected extends AppCompatActivity implements View.OnClickListe
         }
         setContentView(R.layout.food_message);
         mInflater = LayoutInflater.from(this);
-
         Toolbar toolbar = findViewById(R.id.toolBar_fS);
         toolbar.getBackground().setAlpha(0);
         setSupportActionBar(toolbar);
-        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                FoodSelected.this.finish();
-            }
-        });
+        drawerLayoutFS = findViewById(R.id.food_msg_DL);
+        NavigationView navFS = findViewById(R.id.navContent_FM);
+        View navHead = navFS.getHeaderView(0);
+        navFS.setItemTextColor(null);
+        navFS.setItemIconTintList(null);
 
         Intent intent = getIntent();
         bundle_from_FMA = intent.getExtras();
+        CircleImageView userPhoto = navHead.findViewById(R.id.nav_user);
+        TextView tv_userid = navHead.findViewById(R.id.nav_id);
+        TextView tv_userNN = navHead.findViewById(R.id.nav_nickname);
+        final String initUserid = bundle_from_FMA.getString("from_Login_User_id");
+        String initUserNN = "用户昵称: " + userDao.getUserName(initUserid);
+        userPhoto.setImageDrawable(userDao.getUser_Photo(initUserid));
+        String TVuserid = "用户ID: " + initUserid;
+        tv_userid.setText(TVuserid);
+        tv_userNN.setText(initUserNN);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.category);
+        }
+        navFS.setCheckedItem(R.id.nav_Record);
+        navFS.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
+            @Override
+            public boolean onNavigationItemSelected(@NonNull MenuItem item) {
+                switch (item.getItemId()) {
+                    case R.id.nav_Record:
+                        drawerLayoutFS.closeDrawer(GravityCompat.START);
+                        Intent intent1 = new Intent(FoodSelected.this, FoodRecordListView.class);
+                        Bundle bundle = new Bundle();
+                        bundle.putString("from_Login_User_id", initUserid);
+                        intent1.putExtras(bundle);
+                        startActivity(intent1);
+                        break;
+                }
+                return true;
+            }
+        });
+
+//        toolbar.setNavigationOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                FoodSelected.this.finish();
+//            }
+//        });
+
+
         fruitName = bundle_from_FMA.getString("fruit_name");
         TextView fruitNameText = findViewById(R.id.searchResult_title);
         fruitNameText.setText(fruitName);
@@ -621,7 +668,18 @@ public class FoodSelected extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-//弱引用
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                drawerLayoutFS.openDrawer(GravityCompat.START);
+                break;
+            default:
+        }
+        return true;
+    }
+
+    //弱引用
 //    private static class MyHandler extends Handler {
 //        WeakReference<FoodSelected> fruitSelectWeakReference;
 //

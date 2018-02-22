@@ -95,7 +95,6 @@ public class FoodMainActivity extends AppCompatActivity {
 //                    bundle.putString("fruit_name", fruit.getRi_Food_name());
                     bundle_from_FsTA.putString("fruit_name", food.getName());
                     bundle_from_FsTA.putString("fruit_id", food.getId());
-                    bundle_from_FsTA.putString("from_Login_User_id", userId);
                     intent.putExtras(bundle_from_FsTA);
                     startActivity(intent);
                 }
