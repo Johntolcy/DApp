@@ -16,7 +16,11 @@ import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import java.io.File;
+
+import Database.DBHelper;
 import SearchDao.UserDao;
+import Util.Staticfinal_Value;
 
 /**
  * Created by Administrator on 2018/1/2.
@@ -34,6 +38,8 @@ public class Login extends AppCompatActivity {
     private SharedPreferences.Editor editor;
     private CheckBox rememberPass;
     private String intent_Userid;
+    private DBHelper dbHelper;
+    private Staticfinal_Value sfv;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -44,14 +50,15 @@ public class Login extends AppCompatActivity {
             getWindow().setStatusBarColor(Color.TRANSPARENT);
         }
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
-            this.getWindow().getDecorView().setSystemUiVisibility( View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN|View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
+            this.getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_FULLSCREEN | View.SYSTEM_UI_FLAG_LIGHT_STATUS_BAR);
         }
         setContentView(R.layout.login_app);
+        sfv = new Staticfinal_Value();
+
 
         pref = PreferenceManager.getDefaultSharedPreferences(this);
         rememberPass = findViewById(R.id.remember_pass);
         boolean isRemember = pref.getBoolean("remember_password", false);
-
 
         username = findViewById(R.id.user_name);
         password = findViewById(R.id.user_password);
@@ -98,7 +105,7 @@ public class Login extends AppCompatActivity {
                     intent.setClass(Login.this, AllFunction.class);
                     Bundle bundle = new Bundle();
                     bundle.putString("from_Login_User_id", intent_Userid);
-                    bundle.putString("from_Login_User_Username",username_str);
+                    bundle.putString("from_Login_User_Username", username_str);
                     intent.putExtras(bundle);
                     startActivity(intent);
                 } else {
