@@ -5,7 +5,6 @@ package Adapter;
  */
 
 import android.content.Context;
-import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.support.annotation.Nullable;
 import android.view.LayoutInflater;
@@ -18,7 +17,7 @@ import android.widget.TextView;
 
 import com.example.dapp.R;
 
-import Model.Fruit;
+import JavaBean.Fruit;
 
 import java.util.List;
 
@@ -43,26 +42,22 @@ public class FruitAdapter extends ArrayAdapter<Fruit> implements Filterable {
         if (convertView == null) {
             view = LayoutInflater.from(getContext()).inflate(resourceId, parent, false);
             viewHolder = new ViewHolder();
-//            viewHolder.fruitImage = view.findViewById(R.id.search_fruit_image);
-            viewHolder.picture=view.findViewById(R.id.search_fruit_image);
-            viewHolder.fruitName = view.findViewById(R.id.search_fruit_name);
-            viewHolder.fruitNutrition = view.findViewById(R.id.search_fruit_nutrition);
+            viewHolder.food_Ri_photo = view.findViewById(R.id.search_fruit_image);
+            viewHolder.food_Ri_Name = view.findViewById(R.id.search_fruit_name);
             view.setTag(viewHolder);
         } else {
             view = convertView;
             viewHolder = (ViewHolder) view.getTag();
         }
-        viewHolder.fruitName.setText(fruit.getName());
-        viewHolder.picture.setImageDrawable(fruit.getPicture());
-//        viewHolder.fruitImage.setImageResource(fruit.getImageId());
-//        viewHolder.fruitNutrition.setText(fruit.getNutrition());
+        if (fruit != null) {
+            viewHolder.food_Ri_Name.setText(fruit.getRi_Food_name());
+            viewHolder.food_Ri_photo.setImageDrawable(fruit.getRi_Food_photo());
+        }
         return view;
     }
 
     class ViewHolder {
-       ImageView picture;
-        ImageView fruitImage;
-        TextView fruitName;
-        TextView fruitNutrition;
+        ImageView food_Ri_photo;
+        TextView food_Ri_Name;
     }
 }
